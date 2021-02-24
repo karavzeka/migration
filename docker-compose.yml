@@ -1,0 +1,33 @@
+version: '3.3'
+
+services:
+  pgsql:
+    image: postgres
+    ports:
+      - 5444:5432
+#    volumes:
+#      - ./.volumes/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: test_db
+    networks:
+      - migration-network
+
+  mysql:
+    image: mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_PASSWORD: pass
+      MYSQL_USER: user
+      MYSQL_DATABASE: test_db
+    ports:
+      - 5445:3306
+    networks:
+      - migration-network
+
+networks:
+  migration-network:
+    external:
+      name: migration-network
